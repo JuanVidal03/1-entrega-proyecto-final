@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos!</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/styles/styles.css">
+    <!-- socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+    <!-- header -->
+    <%- include('../partials/header.ejs'); %>
+    
+    <main id="main">
+        <!-- products -->
+        <% if(productos.length>0) { %>
+            
+            <div class="title-container">
+                <h1 class="title-home-page">Productos Disponibles!</h1>
+            </div>
+
+            <div class="products-container">
+                
+                <% productos.forEach( product => { %>
+                    <div class="product-container">
+                        <figure class="img-product-container">
+                            <img class="img-product" src=<%= product.foto %> alt=<%= product.nombre %> >
+                        </figure>
+                        <div class="text-product-container">
+                            <h3 class="title-product"><%= product.nombre %></h3>
+                            <p class="text-product"><%= product.descripcion %></p>
+                            <h6 class="price-product">$<%= product.precio %> USD</h6>
+                        </div>
+                        <div class="btn-add-to-cart-container">
+                            <button class="btn-add-to-cart">Añadir!</button>
+                        </div>
+                    </div>
+
+                <% }) %>
+                
+            </div>
+
+        <% } else { %> 
+            <div class="alert alert-warning" role="alert">
+                <h1>No hay productos disponibles :(</h1>
+            </div>
+        <% } %>
+
+
+        <!-- add products form -->
+        <% if(admin === true) { %>
+            <!-- importamos el partial form -->
+            <%- include ('../partials/formProduct.ejs'); %>
+        <% } else { %> 
+            
+        <% } %>
+
+    </main>
+
+    <!-- footer -->
+    <%- include('../partials/footer.ejs'); %>
+
+
+
+    <!-- JS socket -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

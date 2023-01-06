@@ -1,0 +1,29 @@
+[
+  {
+    "nombre": "producto1",
+    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+    "foto": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
+    "precio": 45,
+    "stock": 12,
+    "id": 1,
+    "timeStamp": "1/5/2023, 10:49:17 AM"
+  },
+  {
+    "nombre": "producto2",
+    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+    "foto": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80",
+    "precio": 34,
+    "stock": 5,
+    "id": 2,
+    "timeStamp": "1/5/2023, 10:55:57 AM"
+  },
+  {
+    "nombre": "producto3",
+    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+    "foto": "https://images.unsplash.com/photo-1638394440667-aa54a7c0a703?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+    "precio": 56,
+    "stock": 7,
+    "id": 3,
+    "timeStamp": "1/5/2023, 12:09:06 AM"
+  }
+]

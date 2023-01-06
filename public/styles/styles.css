@@ -1,0 +1,230 @@
+/*  estilos generales */
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+:root{
+    --color-primario: #162719;
+    --color-secundario: #f2e8cf;
+}
+
+::selection{
+    background-color: var(--color-primario);
+    color: var(--color-secundario);
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-secundario);
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: var(--color-primario);
+}
+::-webkit-scrollbar-track{
+    border-radius: 5px;
+    background-color: var(--color-secundario);
+}
+::-webkit-scrollbar{
+    width: 1px;
+    background-color: #f2e8cf;
+}
+
+h1{ font-size: 3rem; }
+h2{ font-size: 2.7rem; }
+h3{ font-size: 2.5rem; }
+h3{ font-size: 2.3rem; }
+h4{ font-size: 2rem; }
+h5{ font-size: 1.7rem; }
+h6{ font-size: 1.5rem; }
+p{ font-size: 1rem; }
+
+/* header styles */
+.header{
+    width: 100%;
+    height: 4rem;
+    background-color: var(--color-primario);
+    padding: 0 3rem;
+}
+
+.navBar{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-items{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.menu-item{
+    text-transform: uppercase;
+    font-weight: 700;
+    list-style: none;
+    cursor: pointer;
+    color: white;
+}
+
+/* products styles */
+.title-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0;
+}
+
+.products-container{
+    width: 100%;
+    height: 100%;
+    padding: 0 5rem 2rem 5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.product-container{
+    padding: 2rem;
+    background-color: #162719;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    cursor: pointer;
+    max-width: 370px;
+    max-height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-container::before{
+    content: "";
+    position: absolute;
+    background-color: #478352;
+    width: 1000px;
+    height: 1000px;
+    border-radius: 50%;
+    top: -120%;
+    left: -170%;
+    transition: .5s all ease-in;
+}
+
+.product-container:hover::before{
+    top: 50%;
+    left: 10%;
+}
+
+.product-container:hover .img-product-container{
+    transform: translateY(-10px);
+}
+
+.img-product-container, .text-product-container, .btn-add-to-cart-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    transition: all ease .5s;
+}
+
+.img-product-container{
+    width: 100%;
+    height: 370px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-product{
+    width: 300px;
+}
+
+.title-product, .price-product, .text-product{
+    color: #ffff;
+}
+
+.btn-add-to-cart-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-add-to-cart{
+    position: relative;
+    width: 7rem;
+    cursor: pointer;
+    height: 2.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--color-secundario);
+    color: var(--color-primario);
+    border: none;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.btn-add-to-cart::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primario);
+    top: 0;
+    left: -100%;
+    transition: all ease .3s;
+    z-index: -1;
+}
+
+.btn-add-to-cart:hover::after{
+    left: 0;
+}
+
+.btn-add-to-cart:hover{
+    color: var(--color-secundario);
+}
+
+
+
+
+
+
+/* form styles */
+.form-container{
+    width: 100%;
+    height: 100%;
+    padding: 0 5rem 2rem 5rem;
+}
+
+.form{
+    width: 100%;
+    height: 100%;
+}
+
+
+/* footer */
+.footer{
+    width: 100%;
+    height: 2rem;
+    background-color: #162719;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer p{
+    color: #ffff;
+}
