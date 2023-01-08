@@ -269,3 +269,47 @@ p{ font-size: 1rem; }
 .info-productById-container{
     margin-left: 5rem;
 }
+
+
+/* form upload Product styles */
+input {
+    all: unset;
+}
+
+input[type=text], input[type=number]{
+    width: 100%;
+    height: 3rem;
+    background-color: #fff;
+    border: nonde;
+    border-radius: 50px;
+    padding-left: 1rem;
+    margin-bottom: .5rem;
+    transition: all ease .5s;
+    border: none;
+}
+
+input[type=text]:focus, input[type=number]:focus{
+    border-radius: 0px ;
+    border: none;
+}
+
+
+.btn-add-product{
+    width: 10rem;
+    cursor: pointer;
+    height: 2.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--color-primario);
+    color: var(--color-secundario);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    transition: all ease .3s;
+}
+
+.btn-add-product:hover{
+    border-radius: 10px;
+}
