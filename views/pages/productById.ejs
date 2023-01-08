@@ -13,26 +13,25 @@
     <!-- header -->
     <%- include('../partials/header.ejs'); %>
 
-    <main id="id">
-        <div class="product-container">
-            <figure class="img-product-container">
-                <img class="img-product" src=<%= product.foto %> alt=<%= product.nombre %> >
+    <main class="main-productById">
+
+        <div class="productById-container">
+            <figure class="img-productById-container">
+                <img class="img-productById" src=<%= product.foto %> alt=<%= product.nombre %> >
             </figure>
-            <div class="text-product-container">
-                <h3 class="title-product"><%= product.nombre %></h3>
-                <p class="text-product"><%= product.descripcion %></p>
-                <h6 class="price-product">$<%= product.precio %> USD</h6>
-            </div>
-            <div class="btn-add-to-cart-container">
-                <button class="btn-add-to-cart">Añadir!</button>
+            <div class="info-productById-container">
+                <h3 class="title-productById"><%= product.nombre %></h3>
+                <p class="description-productById"><%= product.descripcion %></p>
+                <h5 class="precio-productById">$<%= product.precio%> USD</h5>
+                <div class="btn-add-to-cart-container">
+                    <button class="btn-add-to-cart">Añadir!</button>
+                </div>
             </div>
         </div>
     </main>
 
     <!-- header -->
     <%- include('../partials/footer.ejs'); %>
-
-
 
 
 </body>

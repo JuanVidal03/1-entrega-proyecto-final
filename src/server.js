@@ -26,13 +26,6 @@ const admin = true;
 
 
 
-
-
-
-
-
-
-
 /*=================
 RUTAS
 =================*/
@@ -76,6 +69,16 @@ routeProduct.get('/:id', async(req, res) => {
 
 
 // añadiendo productos
+// body para ingresar un producto por postman
+/*
+{
+    "nombre": "",
+    "descripcion": "",
+    "precio": 00,
+    "stock": 00,
+    "foto": "",
+}
+*/
 app.post('/api/productos', async(req, res) => {
     // obteniendo el obj con los datos del producto
     const body = req.body;

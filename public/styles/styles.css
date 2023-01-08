@@ -228,3 +228,44 @@ p{ font-size: 1rem; }
 .footer p{
     color: #ffff;
 }
+
+
+/* Product By Id Styles */
+
+.main-productById{
+    width: 100%;
+    height: 85.5vh;
+    background: linear-gradient(90deg, var(--color-secundario) 50%, var(--color-primario) 50%);
+    padding: 5rem;
+}
+
+.productById-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-productById-container, .info-productById-container{
+    width: 50%;
+}
+
+.img-productById-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-productById{
+    max-width: 350px;
+    box-shadow: 0px 0px 26px 0px var(--color-primario);
+}
+
+.title-productById, .description-productById, .precio-productById{
+    color: #ffff;
+}
+
+.info-productById-container{
+    margin-left: 5rem;
+}
