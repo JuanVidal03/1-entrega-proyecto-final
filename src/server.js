@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 const routeProduct = express.Router();
-const routeCart = express.Router();
 
 // condiguración de ejs
 const ejs = require('ejs');
@@ -23,7 +22,6 @@ const product = new Products('productos.json');
 
 // saber si el usuario es damin o user, si es false no se mostrara el formulario de registrar productos
 const admin = true;
-
 
 
 /*=================
@@ -134,9 +132,81 @@ routeProduct.put('/:id', async(req, res) => {
     }
 });
 
-// accedieno añadieno sub rutas a la ruta principal de productos
+// añadiendo sub rutas a la ruta principal de productos
 app.use('/api/productos', routeProduct);
 
+
+
+/* RUTAS CARRITO */
+// creando instancias del carrito y router
+const Cart = require('./Cart.js');
+const cart = new Cart('cart.json');
+const routeCart = express.Router();
+
+// creando un cart y añadiendo un producto
+app.post('/api/carrito', async(req,res) => {
+
+    try {
+        // se crea un cart
+        await cart.createCart();
+
+    } catch (error) {
+        res.json({ error: 'Hubo un error al crear el carrito.' });
+    }
+
+});
+
+
+// añadiendo productos a un cart previamente creado
+routeCart.post('/:id/productos', async(req, res) => {
+
+    // obteniendo el id del cart y el producto a añadir en el cart
+    const id = parseInt(req.params.id);
+    const body = req.body;
+
+    try {
+
+        // variable donde se está el producto a añadir al carrito
+        let foundProduct;
+
+        // obtenemos todos los productos
+        const allProducts = await product.getAll();
+        //verificamos si el producto que quiere ingresar ya existe.
+        if (allProducts.some(ele => ele.id === body.id)) {
+            // guardo el producto en la variable creada previamente
+            foundProduct = allProducts.find(ele => ele.id === body.id);
+        } else {
+            foundProduct = 'El producto que intentas agregar no existe.'
+        }
+
+        // si el producuto existe previamente se va agregar al carrito
+        if (typeof(foundProduct) === 'object'){
+            // encontramos y añadimos el producto al cart
+            await cart.saveProduct(id, foundProduct);
+            res.send('Producto añadido satisfactoriamente al carrito!');
+
+        } else {
+            res.send('El producto que se intenta agregar al carrito no existe.');
+        }
+
+        //evitar agregar al carrito productos repetidos
+        /* 
+        PARA HACEEEEEEEEEEEEEEEEEEEEEEER
+        */
+
+
+    } catch (error) {
+        res.json({ error: 'Hubo un error al añadir el producto al carrito.' });
+    }
+});
+
+
+// listar productos guardados en el carrito
+
+
+
+// añadiendo sub rutas a la ruta principal de cart
+app.use('/api/carrito', routeCart);
 
 
 
@@ -144,15 +214,6 @@ app.use('/api/productos', routeProduct);
 
 // en caso de que la ruta no exista
 app.get('*', (req, res) => {
-    res.json({ error: 'La ruta a la que intenta acceder no existe.' })
-});
-app.post('*', (req, res) => {
-    res.json({ error: 'La ruta a la que intenta acceder no existe.' })
-});
-app.put('*', (req, res) => {
-    res.json({ error: 'La ruta a la que intenta acceder no existe.' })
-});
-app.delete('*', (req, res) => {
     res.json({ error: 'La ruta a la que intenta acceder no existe.' })
 });
 

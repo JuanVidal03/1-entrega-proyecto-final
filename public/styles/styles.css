@@ -313,3 +313,7 @@ input[type=text]:focus, input[type=number]:focus{
 .btn-add-product:hover{
     border-radius: 10px;
 }
+.product-container a, .menu-item a {
+    text-decoration: none;
+    color: #fff;
+}
