@@ -26,6 +26,37 @@ class Cart {
         }
     }
 
+    // obteniendo los productos de un carrito por id
+    async productsCartById(id){
+        
+        try {
+            // inicializo la avriable que va contener el cart
+            let foundCart;
+
+            // obtengo todos los productos y retorno el carrito que coincida con el id
+            await this.getAll()
+                .then((res) => {
+                    if (res.some(cart => cart.id === id)) {
+                        // se encuentra el carrito y devuelve solo los productos.
+                        foundCart = res.find(cart => cart.id === id); // cart
+                        foundCart = foundCart.productos; // only products
+
+                    } else {
+                        foundCart = 'El carrito al que está intentando ingresar no existe.';
+                    }
+
+                }).catch((err) => {
+                    console.log(`ERROR al obtener la data: ${err}`);
+                });
+
+            // return del carrito
+            return foundCart;
+
+        } catch (error) {
+            console.log(`ERROR: ${error}`);
+        }
+    }
+
     // creando un cart
     async createCart(){
 
@@ -126,7 +157,7 @@ class Cart {
     }
 
 
-    // eliminaod cart por id
+    // eliminando cart por id
     async deleteById(id){
 
         try {
@@ -142,7 +173,7 @@ class Cart {
 
                     res.splice(indice, 1);
                     await fs.promises.writeFile(`${this.path}`, JSON.stringify(res, null, 2));
-                    console.log('Producto eliminado exitosamente!');
+                    console.log('Carrito eliminado exitosamente!');
 
                     } else {
                         console.log(`El producto con el id: ${id} no fue encontrado.`);

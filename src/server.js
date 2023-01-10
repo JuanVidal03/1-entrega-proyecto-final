@@ -2,18 +2,12 @@
 const express = require('express');
 const app = express();
 const PORT = 8080;
-const path = require('path');
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 const routeProduct = express.Router();
-
-// condiguración de ejs
-const ejs = require('ejs');
-app.set('view engine', 'ejs');
-app.set('views', './views');
 
 // creando instancia de clase para crear productos y sbirlos a fileSystem
 const Products = require('./Products.js');
@@ -36,11 +30,11 @@ app.get('/api/productos', async(req, res) => {
     try {
         // obteniendo productos
         const allProducts = await product.getAll();
-        // renderizando los datos del ciente
-        res.render('./pages/home.ejs', { productos: allProducts, admin: admin });
+        // renderizamois todos los productos en un json
+        res.json(allProducts);
 
     } catch (error) {
-        res.json({ error: `Paso algo malo: ${error}` })
+        res.json({ error: `Hubo un error al obtener la data: ${error}` })
     }
 });
 
@@ -53,9 +47,10 @@ routeProduct.get('/:id', async(req, res) => {
     try {
         const producto = await product.getById(id);
 
-        // se verifica si el return de product es un objeto, para aí renderizar el layout que muestra el producto
+        // se verifica si el return de product es un objeto
         if ( typeof(producto) === 'object') {
-            res.render('./pages/productById.ejs', { product: producto });
+            // retorna el producto buscado
+            res.json(producto);
         } else {
             res.json({ error: 'El id ingresado no existe.' })
         }
@@ -74,7 +69,7 @@ routeProduct.get('/:id', async(req, res) => {
     "descripcion": "",
     "precio": 00,
     "stock": 00,
-    "foto": "",
+    "foto": ""
 }
 */
 app.post('/api/productos', async(req, res) => {
@@ -82,10 +77,15 @@ app.post('/api/productos', async(req, res) => {
     const body = req.body;
 
     try {
-        // añadiendo productos
-        await product.save(body);
-        // redirijiendo a la página principal
-        res.redirect('/api/productos');
+        // revisa si es admin o no
+        if (admin === true) {
+            // añadiendo productos
+            await product.save(body);
+            res.send('El producto fue añadido con exito!');
+
+        } else {
+            res.send('Solo los administradores pueden añadir productos.');
+        }
 
     } catch (error) {
         res.json({ error: `Ha ocurrido y no se pudo subir el producto: ${error}` });
@@ -95,13 +95,19 @@ app.post('/api/productos', async(req, res) => {
 // eliminando producto por su id
 routeProduct.delete('/:id', async (req, res) => {
 
-    // id a eliminar
+    // id del producto a eliminar
     const id = parseInt(req.params.id);
 
     try {
-        // const deleteProduct = await product.deleteById(id);
-        await product.deleteById(id);
-        res.send('Producto eliminado exitosamente!');
+
+        // revisa si es damin o no
+        if (admin === true) {
+            await product.deleteById(id);
+            res.send('Producto eliminado exitosamente!');
+            
+        } else {
+            res.send('Solo los administradores pueden eliminar productos.');
+        }
 
     } catch (error) {
         res.json({ error: `Ha ocurrido y no se pudo encontrar el id de producto: ${error}` });
@@ -117,15 +123,20 @@ routeProduct.put('/:id', async(req, res) => {
     let id = parseInt(req.params.id);
 
     try {
-        
-        let allProducts = await product.getAll();
-        let findProduct = allProducts.find(ele => ele.id === id);
+        // verifica si e administrador
+        if (admin === true) {
+            // obtenemos todos los productos y encontramos al productoa actualizar
+            let allProducts = await product.getAll();
+            let findProduct = allProducts.find(ele => ele.id === id);
+            // proceso de actualizar producto
+            let updateProduct = { ...findProduct, ...body };
+            await product.deleteById(id);
+            await product.save(updateProduct);
 
-        let updateProduct = { ...findProduct, ...body };
-        await product.deleteById(id);
-        await product.save(updateProduct);
-
-        res.send('Producto actualizado exitosamente!');
+            res.send('Producto actualizado exitosamente!');
+        } else {
+            res.send('Solo los administradores pueden actualizar productos.');
+        }
 
     } catch (error) {
         res.json({ error: `Ha ocurrido y no se pudo encontrar el id de producto: ${error}` });
@@ -149,6 +160,7 @@ app.post('/api/carrito', async(req,res) => {
     try {
         // se crea un cart
         await cart.createCart();
+        res.send('Carrito creado exitosamente!');
 
     } catch (error) {
         res.json({ error: 'Hubo un error al crear el carrito.' });
@@ -171,6 +183,7 @@ routeCart.post('/:id/productos', async(req, res) => {
 
         // obtenemos todos los productos
         const allProducts = await product.getAll();
+
         //verificamos si el producto que quiere ingresar ya existe.
         if (allProducts.some(ele => ele.id === body.id)) {
             // guardo el producto en la variable creada previamente
@@ -179,20 +192,16 @@ routeCart.post('/:id/productos', async(req, res) => {
             foundProduct = 'El producto que intentas agregar no existe.'
         }
 
-        // si el producuto existe previamente se va agregar al carrito
+        // para que solo sean añadidos productos al carrito y no otro tipo  de valor
         if (typeof(foundProduct) === 'object'){
+
             // encontramos y añadimos el producto al cart
             await cart.saveProduct(id, foundProduct);
             res.send('Producto añadido satisfactoriamente al carrito!');
 
         } else {
-            res.send('El producto que se intenta agregar al carrito no existe.');
+            res.send(foundProduct);
         }
-
-        //evitar agregar al carrito productos repetidos
-        /* 
-        PARA HACEEEEEEEEEEEEEEEEEEEEEEER
-        */
 
 
     } catch (error) {
@@ -201,7 +210,35 @@ routeCart.post('/:id/productos', async(req, res) => {
 });
 
 
-// listar productos guardados en el carrito
+// listar productos guardados en el carrito en especifico
+routeCart.get('/:id/productos', async (req, res) => {
+
+    // obtengo el id
+    const id = parseInt(req.params.id);
+
+    try {
+        // obtendo el carrito que coincida con el id
+        let foundCart = await cart.productsCartById(id);
+        res.json(foundCart);
+
+    } catch (error) {
+        res.json(`Hubo un erro al obtener la data: ${error}`);
+    }
+});
+
+
+// eliminar un carrito
+routeCart.delete('/:id', async(req, res) => {
+    // obtengo el id
+    const id = parseInt(req.params.id);
+
+    try {
+        
+    } catch (error) {
+        res.json({ error: `No se pudo eliminar el carrito: ${error}.` })
+    }
+});
+
 
 
 
