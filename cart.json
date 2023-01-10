@@ -1,27 +1,27 @@
 [
   {
     "id": 1,
-    "timeStamp": 1673306258559,
+    "timeStamp": 1673382416255,
     "productos": [
       {
-        "nombre": "Camisa Hombre",
+        "nombre": "Pantalon Hombre",
         "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "precio": "34",
-        "stock": "12",
-        "foto": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
-        "id": 1,
-        "timeStamp": 1673106432467,
-        "codigo": 2561
+        "precio": 70,
+        "stock": 11,
+        "foto": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=397&q=80",
+        "id": 4,
+        "timeStamp": 1673382308857,
+        "codigo": 5070
       },
       {
-        "nombre": "Chaqueta Mujer",
+        "nombre": "Pantalon Mujer",
         "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "precio": "56",
-        "stock": "5",
-        "foto": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80",
-        "id": 2,
-        "timeStamp": 1673106474778,
-        "codigo": 3555
+        "precio": "76",
+        "stock": "13",
+        "foto": "https://images.unsplash.com/photo-1638394440667-aa54a7c0a703?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+        "id": 3,
+        "timeStamp": 1673214672102,
+        "codigo": 8575
       }
     ]
   }

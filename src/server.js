@@ -60,7 +60,6 @@ routeProduct.get('/:id', async(req, res) => {
     }
 });
 
-
 // añadiendo productos
 // body para ingresar un producto por postman
 /*
@@ -84,7 +83,7 @@ app.post('/api/productos', async(req, res) => {
             res.send('El producto fue añadido con exito!');
 
         } else {
-            res.send('Solo los administradores pueden añadir productos.');
+            res.json({ error: 'Solo los administradores pueden añadir productos.' });
         }
 
     } catch (error) {
@@ -106,14 +105,13 @@ routeProduct.delete('/:id', async (req, res) => {
             res.send('Producto eliminado exitosamente!');
             
         } else {
-            res.send('Solo los administradores pueden eliminar productos.');
+            res.json({ error: 'Solo los administradores pueden añadir productos.' });
         }
 
     } catch (error) {
         res.json({ error: `Ha ocurrido y no se pudo encontrar el id de producto: ${error}` });
     }
 });
-
 
 // actualizando un elemento por su id
 routeProduct.put('/:id', async(req, res) => {
@@ -135,7 +133,7 @@ routeProduct.put('/:id', async(req, res) => {
 
             res.send('Producto actualizado exitosamente!');
         } else {
-            res.send('Solo los administradores pueden actualizar productos.');
+            res.json({ error: 'Solo los administradores pueden añadir productos.' });
         }
 
     } catch (error) {
@@ -149,12 +147,13 @@ app.use('/api/productos', routeProduct);
 
 
 /* RUTAS CARRITO */
+
 // creando instancias del carrito y router
 const Cart = require('./Cart.js');
 const cart = new Cart('cart.json');
 const routeCart = express.Router();
 
-// creando un cart y añadiendo un producto
+// creando un cart
 app.post('/api/carrito', async(req,res) => {
 
     try {
@@ -163,11 +162,10 @@ app.post('/api/carrito', async(req,res) => {
         res.send('Carrito creado exitosamente!');
 
     } catch (error) {
-        res.json({ error: 'Hubo un error al crear el carrito.' });
+        res.json({ error: `Hubo un error al crear el carrito: ${error}` });
     }
 
 });
-
 
 // añadiendo productos a un cart previamente creado
 routeCart.post('/:id/productos', async(req, res) => {
@@ -203,12 +201,10 @@ routeCart.post('/:id/productos', async(req, res) => {
             res.send(foundProduct);
         }
 
-
     } catch (error) {
         res.json({ error: 'Hubo un error al añadir el producto al carrito.' });
     }
 });
-
 
 // listar productos guardados en el carrito en especifico
 routeCart.get('/:id/productos', async (req, res) => {
@@ -226,6 +222,19 @@ routeCart.get('/:id/productos', async (req, res) => {
     }
 });
 
+// obteniendo carrito por Id
+routeCart.get('/:id', async (req, res) => {
+    // obtengo el id
+    const id = parseInt(req.params.id);
+
+    try {
+        // retorna el carrito
+        res.json(await cart.getById(id));
+
+    } catch (error) {
+        res.json({ error: `Hubo un error al eliminar el producto: ${error}` });
+    }
+});
 
 // eliminar un carrito
 routeCart.delete('/:id', async(req, res) => {
@@ -233,24 +242,42 @@ routeCart.delete('/:id', async(req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-        
+        // eliminando el carrito
+        await cart.deleteCartById(id);
+        res.send('Carrito eliminado con exito!');
+
     } catch (error) {
         res.json({ error: `No se pudo eliminar el carrito: ${error}.` })
     }
 });
 
+// eliminando un producto dentro de un carrito
+routeCart.delete('/:id/productos/:id_prod', async (req, res) => {
 
+    // obteniendo id de producto y de carrito
+    const id = parseInt(req.params.id);
+    const id_prod = parseInt(req.params.id_prod);
+
+    try {
+
+        const deleteProduct = await cart.deleteProductWithinCart(id, id_prod);
+        res.send(deleteProduct);
+
+    } catch (error) {
+        res.json({ error: `Hubo un error al eliminar el producto del carrito: ${error}` });
+    }
+});
 
 
 // añadiendo sub rutas a la ruta principal de cart
 app.use('/api/carrito', routeCart);
 
 
-
-
-
 // en caso de que la ruta no exista
 app.get('*', (req, res) => {
+    res.json({ error: 'La ruta a la que intenta acceder no existe.' })
+});
+app.post('*', (req, res) => {
     res.json({ error: 'La ruta a la que intenta acceder no existe.' })
 });
 
